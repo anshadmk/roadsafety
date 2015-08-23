@@ -1,0 +1,95 @@
+import os
+from flask import Flask, request, redirect, url_for
+from werkzeug import secure_filename
+from flask import render_template
+import MySQLdb
+
+# Open database connection
+
+db = MySQLdb.connect(host="localhost",user="cloud",passwd="cloud",db="userdb" )
+
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif','py','zip'])
+app = Flask(__name__)
+UPLOAD_FOLDER = ""
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+@app.route('/', methods=['GET', 'POST'])
+def login(name=None):
+    return render_template('index.html',name=name)
+@app.route('/verification', methods=['GET', 'POST'])
+def verification():
+	
+	username = request.form['usermail']
+	password = request.form['password']
+	password=str(password)
+	username=str(username)
+	# prepare a cursor object using cursor() method
+	cursor = db.cursor()
+	#sql="select * from user where username=%"
+	
+	try:
+		 cursor.execute("SELECT * FROM user WHERE name = %s ", (username))
+		 data=cursor.fetchall()
+		 # Execute the SQL command
+		 cursor.close()
+	except:
+		# Rollback in case there is any error
+		db.rollback()
+	# disconnect from server
+	if data==():
+		 	return render_template('index.html',name="Please SignUp")
+
+	for row in data:
+		passw=row[1]
+	if passw==password:
+		UPLOAD_FOLDER = "/home/50812/"+username
+		app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+		return redirect(url_for('uploading'))
+	else:
+		return render_template('index.html',name="Invalid password")
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+	username = request.form['usermail']
+	password = request.form['password']
+	password1 = request.form['password1']
+	password=str(password)
+	username=str(username)
+	if password!=password1:
+		return render_template('index.html',name1="Passwords do not match")
+	# prepare a cursor object using cursor() method
+	cursor = db.cursor()
+	os.makedirs("/home/50812/"+username)
+	#sql="select * from user where username=%"
+	sql="INSERT INTO user(name,password) VALUES ('%s','%s' )" % (username,password)
+	try:
+		 
+		 cursor.execute(sql)
+		 # Execute the SQL command
+		 cursor.close()
+		 db.commit()
+	except:
+		# Rollback in case there is any error
+		db.rollback()	
+	# disconnect from server
+	return redirect(url_for('login'))
+			
+@app.route('/uploaded', methods=['GET', 'POST'])
+def uploading():
+	if request.method == 'POST':
+        	file = request.files['file']
+        	if file and allowed_file(file.filename):
+            		filename = secure_filename(file.filename)
+            		file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            		return redirect(url_for('uploading'))
+
+    	return render_template('upload.html')
+	
+
+if __name__ == '__main__':
+    app.run()
+    db.close()	
+    

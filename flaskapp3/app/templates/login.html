@@ -1,0 +1,16 @@
+<section class="loginform cf">
+<form name="login" action= method="post" accept-charset="utf-8">
+    <ul>
+        <li><label for="usermail">Username</label>
+        <input type="mail" id="usermail" name="usermail" placeholder="Enter Username" required></li>
+        <li><label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter password" required></li>
+        <li>
+        <input type="submit" value="Login"></li>
+    </ul>
+</form>
+{% if name %}
+<p>{{ name }}</p>
+{% endif %}
+
+</section>

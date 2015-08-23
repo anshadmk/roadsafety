@@ -1,0 +1,27 @@
+#!/usr/bin/python
+
+import MySQLdb
+# Open database connection
+db = MySQLdb.connect(host="localhost",user="cloud",passwd="cloud",db="userdb" )
+username='arjith'
+# prepare a cursor object using cursor() method
+cursor = db.cursor()
+#sql="select * from user where username=%"
+cursor.execute("SELECT * FROM user WHERE name = %s ", (username))
+try:
+   # Execute the SQL command
+   data=cursor.fetchall()
+   if data==():
+	print "no such user"
+   else:
+	   for row in data:
+	   	passw=row[1]
+	   print passw
+  # Commit your changes in the database
+   db.commit()
+except:
+   # Rollback in case there is any error
+   db.rollback()
+cursor.close()
+# disconnect from server
+db.close()

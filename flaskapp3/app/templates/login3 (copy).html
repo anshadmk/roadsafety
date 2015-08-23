@@ -1,0 +1,13 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<body>
+<h>SPEED ENFORCEMENT LIST</h>
+<p>VEHICLE NUMBER&nbsp&nbsp&nbsp&nbsp&nbsp&nbspMESSAGE COUNT&nbsp&nbsp&nbsp&nbsp&nbsp&nbspMAX SPEED</p>
+{% for item in items %}
+<p>{{ item[0] }}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{ item[1] }}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{ item[2] }}</p>
+{% endfor %}
+
+</body>
+</html>
+

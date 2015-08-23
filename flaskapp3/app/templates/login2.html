@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>SPEED MONITORING SYSTEM|LOGIN</title>
+<style>
+body {
+    background-color: orange;
+}
+h3{
+font-size: 10pt;
+}
+</style>
+</head>
+<body>
+<center>
+<h1>SPEED MONITORING SYSTEM</h1>
+<!--img src="csea.jpg" height="400" width="800" alt="CSEA"/-->
+<br>
+<br>
+<form name="login" action= "{{ url_for('speed_violation') }}" method="post" accept-charset="utf-8">
+<b><label>USERNAME</label></b>
+<input type="text" name="NAME" size="50"/>
+<br>
+<br>
+<b><label>PASSWORD</label></b>
+<input type="password" name="NAME" size="50"/>
+<br>
+<br>
+<input type="submit" value="SUBMIT" />
+</form>
+<h3 >KERALA ROAD SAFETY HACKATHON</h3>
+</center>
+
+
+</body>
+</html>
